@@ -13,10 +13,23 @@ connect.then(()=>{
     })
     .then(campsite=>{
         console.log(campsite);
-        return Campsite.find();
+        return Campsite.findByIdAndUpdate(campsite._id,
+            {$set:{description:"Updated Description"}},{
+                new:true
+            }
+        );
     })
-    .then(campsites=>{
-        console.log(campsites);
+    .then(campsite=>{
+        console.log(campsite);
+        campsite.comments.push({
+            rating:5,
+            text:"Good one",
+            author:"Peter Than"
+        });
+        return campsite.save();
+    })
+    .then(campsite=>{
+        console.log(campsite);
         return Campsite.deleteMany();
     })
     .then(()=>{
